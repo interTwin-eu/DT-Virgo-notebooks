@@ -1,0 +1,10 @@
+astropy
+requests
+pyjwt
+nds2utils
+cryptography
+h5py
+gwpy
+pillow==6.1.0
+matplotlib
+imageio==2.9.0
