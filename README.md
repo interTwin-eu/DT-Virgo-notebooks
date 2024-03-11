@@ -1,92 +1,79 @@
-# intertwin_gwaves
+# InterTwin WP 4.4
 
 
+## Glitch Flow
+Non-Gaussian transient noise artifacts, commonly referred to as glitches, are one of the most challenging limitations in the study of gravitational-wave interferometer data due to their similarities with astrophysical sources signals in the time and frequency domains. Therefore, exploring novel methods to recover physical information from data corrupted by glitches is essential. 
+We address the issue with Glitch FLow, a Digital Twin (DT) whose purpose is modeling and generating glitches using deep generative algorithms. Namely, we employ Decoder and Encoder Decoder Convolutional architectures for data-to-data translation. This strategy involves mapping glitches from carefully chosen auxiliary channels (uncorrelated with the physical signals) to the 'strain' (main) channel, allowing us to subtract the generated noise from the physically interesting data. 
 
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/edoardograsso98/intertwin_gwaves.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/edoardograsso98/intertwin_gwaves/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+This guide illustrates the all the necessary seps to run and customise interTwin_wp_4.4_synthetic_data.ipynb notebook.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+To run the notebook, it is necessary to install jupyter notebook on your machine, as well as all python packages included in the Import section of th notebook. To train the Neural Networks (NNs) the use of GPU is strongly recomended.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+The notebook is divided in 6 macro sections:
+
+- ### Import :
+In this section all relevant python packages are imported and the device is set to GPU if available.
+- ### Create Synthetic Dataset:
+In this section, we create a synthetic dataset to train generative models with.
+
+The section is split in two parts:
+
+   1. **TimeSeries Dataset** Generation of a gwpy TimeSeries dataset making use of random noise and sinusoidal functions
+   2. **Q-plot Dataset** Conversion of TimeSeries dataset into 2D Image dataset making use of q_transform
+
+
+The dataset used to train the NN with is created as a 2D images. Note that you do not need to run the two sections each time, but can rather save the dataset after creating it once and loading it at the beginning of Process Data that to save time 
+
+- ### Preprocess Data:
+In this section we prepare the dataset for NN training and inference.
+
+The section is divided in two parts:
+1. **Split Data**, where we convert the dataset to torch, and then divide it into train and test set (making also a smaller version of the two)
+2. **Normalise Data & Dataloader**, where we bring the dataset to the range [0,1] (for NN convergence reasons) and create dataloader objects
+
+- ### NN Models:
+In this section we define different NN architectures models, and initialise one of them as the generator to use in training and inference.
+
+This section is split in three parts:
+1. **Weight Initialization**, where we define the function to initialise the weights of the NN models according to certain parameters and distributions passed as input
+2. **NN Models**, where we define different NN models exploting different architecutres
+3. **Generator**, where we initialise one of the above models as the generator to use in training and inference
+
+- ### Training:
+  In this section, we train the previously defined and initialised NN model.
+
+This section is divided into three parts:
+1. **Functions**, which contains utils functions to calculate several loss functions for the networks, a metric for accuracy (not used in the current version of the notebook) a function to make inference and a function to train the model and save the weights
+2. **Pre-training generation**, where we make inference on test data using untrained network
+3. **Actual training**, where we train the NN, save the weigths and plot losses curves
+
+- ### Inference:
+In this section we make inference on test dataset using trained NN, and we plot the generated qplots.
+
+This section is devided in two parts:
+1. **Load Model**, where we load the model from checkpoint
+2. **Actual Inferece**, where we generate data for main channel from the test dataset. We also plot the generated data and compare it to the target
+
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+For support contact lorenzo.asprea@to.infn.it and francesco.sarandrea@to.infn.it
 
 ## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
 ## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Sara Vallero, Federica Legger, Francesco Sarandrea, Lorenzo Asprea
 
 ## License
-For open source projects, say how it is licensed.
+
 
 ## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Ongoing
