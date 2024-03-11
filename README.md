@@ -7,11 +7,12 @@ We address the issue with Glitch FLow, a Digital Twin (DT) whose purpose is mode
 
 
 ## Description
-This guide illustrates the all the necessary seps to run and customise interTwin_wp_4.4_synthetic_data.ipynb notebook.
+This guide illustrates the all the necessary seps to run and customise Glitch Flow with the https://github.com/interTwin-eu/DT-Virgo-notebooks/WP_4_4/interTwin_wp_4.4_synthetic_data.ipynb jupyter notebook.
 
 
 ## Installation
 To run the notebook, it is necessary to install jupyter notebook on your machine, as well as all python packages included in the Import section of th notebook. To train the Neural Networks (NNs) the use of GPU is strongly recomended.
+We also provide a Docker Image (https://github.com/interTwin-eu/DT-Virgo-notebooks/WP_4_4/Dockerfile) with all necessary python packages to run the notebook.
 
 ## Usage
 The notebook is divided in 6 macro sections:
