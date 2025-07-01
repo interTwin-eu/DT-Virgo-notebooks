@@ -1,0 +1,121 @@
+training_pipeline:
+  _target_: itwinai.pipeline.Pipeline
+  steps:
+    Splitter:
+      _target_: Glitchflow.Dataloader.QTDatasetSplitter
+      train_proportion: 0.9
+      nev: 0
+      nchans: 9
+      images_dataset: 
+      
+      
+    Processor:  
+      _target_: Glitchflow.Dataloader.QTProcessor
+      maxstrain: 6
+      
+    Trainer:
+      _target_: Glitchflow.Trainer.GlitchTrainer
+      num_epochs: 1
+      acc_threshold: 16
+      acc_freq: 1
+      grad_clip: 5.0
+      coptim_betas:  
+                     - 0.9
+                     - 0.999
+      config: 
+        _target_: itwinai.torch.config.TrainingConfiguration
+        batch_size: 10
+        
+        optim_lr: 1.0e-4
+        
+        optim_momentum: 0.9
+        optim_weight_decay: 1e-4
+        
+        cschd_mode: 'min'
+        cschd_patience: 7
+        cschd_min_lr: 1e-7
+        cschd_verbose: Yes 
+        cschd_factor: 0.5
+      logger: 
+        _target_: itwinai.loggers.MLFlowLogger
+        experiment_name: 
+        log_freq: 'batch'
+        tracking_uri: 'http://localhost:5005'
+     
+        
+        
+inference_pipeline:
+  _target_: itwinai.pipeline.Pipeline
+  steps:
+    Load-infdata:
+      _target_: Glitchflow.Dataloader.ReadInfData
+      
+      model_name: 'DUMMY'
+     
+    Make-inference:   
+      _target_: Glitchflow.Inference.GlitchInference
+      batch_size: 30
+      n_samp_rows: 2
+      logger: 
+        _target_: itwinai.loggers.MLFlowLogger
+        experiment_name: 'pipeline_inference'
+        log_freq: 'batch'
+        tracking_uri: 'http://localhost:5005'
+        
+        
+glitchflow_pipeline:
+  _target_: itwinai.pipeline.Pipeline
+  steps:
+    Load-infdata:
+      _target_: Glitchflow.Dataloader.ReadInfData
+      
+      model_name: 
+      
+    Make-inference:   
+      _target_: Glitchflow.Inference.Glitchflow        
+        
+preproc_pipeline:
+  _target_: itwinai.pipeline.Pipeline
+  steps:
+    Data-processor:
+      _target_: Annalisa.Dataloader.DtsToTensor
+      #savepath: ''
+      dataconf: 
+        _target_: Annalisa.Data.YamlWrapper
+        fname: 'datasets.yaml'
+    Annalisa-scan:
+      _target_: Annalisa.Scanner.AnnalisaScan
+      params: 
+        _target_: Annalisa.Data.YamlWrapper
+        fname: 'scan.yaml'
+      conf: 
+        _target_: Annalisa.Data.YamlWrapper
+        fname: 'saveconf.yaml'  
+      
+      source: 
+      
+    QT-dataset:
+     _target_: Annalisa.Scanner.Preprocess
+     params: 
+        _target_: Annalisa.Data.YamlWrapper
+        fname: 'process.yaml'
+     conf: 
+        _target_: Annalisa.Data.YamlWrapper
+        fname: 'saveconf.yaml'
+     whiteconf: 
+        _target_: Annalisa.Data.YamlWrapper
+        fname: 'whiten.yaml'
+     log_base: 10
+     save_gr_par: Yes
+     
+      
+      
+vis_dts:
+  _target_: itwinai.pipeline.Pipeline
+  steps:
+    Data-Vis:
+      _target_: Annalisa.Dataloader.VisualizeData
+      data_root: './QTdatasets/1751313077000_new_1751313086000/'
+      data_name: 'QT.pt'
+      tensorboard_root: '/home/'
+          
