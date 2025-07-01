@@ -1,0 +1,32 @@
+whiten: 
+
+                psd_nfft: 8192 
+                psd_win_length: 8192 
+                psd_hop_length: 128
+                # Parameters for whitening STFT:
+                stft_nfft: 8192 #1024
+                stft_win_length: 8192 #1024
+                stft_hop_length: 512  #1024
+                stft_window_type: 'hann' 
+                center: Yes
+                normalized: 'energy'
+                average_type: 'median'   # Options: None, 'mean', 'median', 'moving_mean', 'moving_median'
+                normalization: 'ml4gw'   # Options: 'ml4gw', 'nperseg', 'window_sum', 'fftlength', None
+                moving_avg_window_ratio: 0.2  
+                epsilon: 1.0e-31         #1.0e-21,#1.0e-12,              
+                exclude_border: No       # Exclude border frames in PSD estimation.
+                border_fraction: 0.3333333       # Fraction of frames to exclude at each end.
+                border_mitigation: Yes    
+                pad_mode: 'constant'
+                # Synthesis window compensation option:
+                design_synth_window: Yes
+                # New window options for PSD and STFT:
+                psd_window_type: 'hann'
+                psd_planck_epsilon: 0.5
+                psd_kaiser_beta: 100
+                truncation_window_type: 'hann'
+                truncation_planck_epsilon: 0.5
+                truncation_kaiser_beta: 4
+                detrend: Yes
+                truncation_window_size: 2
+                convolve_method: 'overlapsave'  #'overlapsave' 'stft'

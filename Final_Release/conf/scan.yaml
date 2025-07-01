@@ -1,0 +1,25 @@
+# Configurazione analisi dataset
+dataset_scan:
+  # Parametri del dataset
+  parameters:
+    num_batch: 10         # batch dataloader
+    num_chan: 26         # batch channel dataloader 
+    threshold: 20
+    time_window: null
+    time_only_mode: No
+    tolerance_distance: 0
+    q: 12
+    frange:
+     - 8
+     - 50
+    fres: 0.5
+    tres: 0.1
+    num_t_bins: null
+    num_f_bins: null
+    refchan: "V1:Hrec_hoft_raw_20000Hz"
+    logf: No
+    qtile: No
+    whiten: True
+    threshold_corr: 0.17
+    threshold_iou: 0.08
+    

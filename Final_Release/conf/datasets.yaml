@@ -1,0 +1,40 @@
+datasets:
+  - path: "/data/datasets/intertwin-dati-aux/gspy_O3a_Scattered_Light_V1_linear_corrs"
+    target: "V1:Hrec_hoft_raw_20000Hz"
+    ch_list: null
+    channels:
+      min: null
+      max: null
+    events:
+      min: null
+      max: 500
+    processing:
+      minf: 8
+      maxf: 500
+      sr: No
+      len: null
+      batch: 100
+      whiten: No 
+
+  - path: "/data/datasets/intertwin-dati-aux/gspy_O3a_Scattered_Light_V1"
+    target: "V1:Hrec_hoft_16384Hz"
+    ch_list: null
+    channels:
+      min: null
+      max: null
+    events:
+      min: null
+      max: 500
+    processing:
+      minf: 8
+      maxf: 500
+      sr: No
+      len: 6
+      batch: 100
+      whiten: No
+      
+      
+      
+      
+      
+  

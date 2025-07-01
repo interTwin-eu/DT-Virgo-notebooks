@@ -1,0 +1,29 @@
+# Configurazione analisi dataset
+dataset_proc:
+  # Parametri del dataset
+  parameters:
+    num_batch: 4         # batch dataloader
+    q: 12
+    frange:
+     - 8
+     - 500
+    fres: 0.5
+    tres: 0.1
+    num_t_bins: 257
+    num_f_bins: 64
+    
+    logf: Yes
+    qtile: No
+    whiten: No
+    psd: null
+    
+    energy_mode: Yes
+    phase_mode: No
+    window_param : null
+    tau: 0.5
+    beta: 8.6
+    
+    shuffle: No
+    qslicemin: 0
+    qslicemax: -1
+    

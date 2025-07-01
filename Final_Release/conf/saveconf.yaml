@@ -1,0 +1,52 @@
+## general pipeline params
+
+#mode: all|fromfile|
+
+params:
+  scanpath: null
+  ftype: null
+  resdir: "./annalisarun"
+  
+
+# Sezione risultati
+res:
+  #dtsmerged:
+    
+    #dir: "./datasets"
+    
+  processed:
+    dir: "./QTdatasets"
+  
+  graphcorr:
+    file: "corr.png"
+   
+  
+  graphiou:
+    file: "iou.png"
+    
+  annalisaotp:
+    file: "results.yaml"  
+    
+  
+  indices:
+    file: "ch"
+    dir: null
+    
+  qtensor:
+    file: "QT"
+    
+  qparameters:
+    file: "qparameters.yaml"
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+  
+    
